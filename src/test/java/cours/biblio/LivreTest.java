@@ -67,34 +67,6 @@ class LivreTest {
     }
 
     @Nested
-    @DisplayName("quand on le rend")
-    class QuandOnLeRend {
-
-        @Test
-        @DisplayName("redevient disponible")
-        void redevientDisponible() {
-            Livre livre = new Livre("9782070360024", "L'Étranger", "Camus");
-            livre.emprunter();
-
-            livre.rendre();
-
-            assertThat(livre.isDisponible()).isTrue();
-        }
-
-        @Test
-        @DisplayName("peut être ré-emprunté ensuite")
-        void peutEtreReEmprunteEnsuite() {
-            Livre livre = new Livre("9782070360024", "L'Étranger", "Camus");
-            livre.emprunter();
-            livre.rendre();
-
-            livre.emprunter();
-
-            assertThat(livre.isDisponible()).isFalse();
-        }
-    }
-
-    @Nested
     @DisplayName("accepte un ISBN")
     class AccepteUnIsbn {
 

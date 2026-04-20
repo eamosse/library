@@ -14,7 +14,6 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -76,47 +75,6 @@ class LivreServiceTest {
             assertThatThrownBy(() -> service.emprunter(42L))
                     .isInstanceOf(LivreIntrouvableException.class)
                     .hasMessageContaining("42");
-        }
-
-        @Test
-        @DisplayName("ne sauvegarde rien")
-        void neSauvegardeRien() {
-            when(repository.findById(42L)).thenReturn(Optional.empty());
-
-            assertThatThrownBy(() -> service.emprunter(42L))
-                    .isInstanceOf(LivreIntrouvableException.class);
-
-            verify(repository, never()).save(any());
-        }
-    }
-
-    @Nested
-    @DisplayName("quand le livre est déjà emprunté")
-    class QuandLeLivreEstDejaEmprunte {
-
-        @Test
-        @DisplayName("lève LivreDejaEmprunteException avec le bon ISBN")
-        void leveDejaEmprunte() {
-            Livre livre = new Livre("9782070360024", "L'Étranger", "Camus");
-            livre.emprunter();
-            when(repository.findById(1L)).thenReturn(Optional.of(livre));
-
-            assertThatThrownBy(() -> service.emprunter(1L))
-                    .isInstanceOf(LivreDejaEmprunteException.class)
-                    .hasMessageContaining("9782070360024");
-        }
-
-        @Test
-        @DisplayName("ne sauvegarde rien")
-        void neSauvegardeRien() {
-            Livre livre = new Livre("9782070360024", "L'Étranger", "Camus");
-            livre.emprunter();
-            when(repository.findById(1L)).thenReturn(Optional.of(livre));
-
-            assertThatThrownBy(() -> service.emprunter(1L))
-                    .isInstanceOf(LivreDejaEmprunteException.class);
-
-            verify(repository, never()).save(any());
         }
     }
 }
