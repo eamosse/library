@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Bibliothèque — Livres</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; color: #222; }
+        h1 { border-bottom: 2px solid #2c3e50; padding-bottom: .3rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { padding: .5rem .75rem; border-bottom: 1px solid #e0e0e0; text-align: left; }
+        th { background: #f5f7fa; }
+        .empty { color: #888; font-style: italic; }
+        .disponible { color: #27ae60; font-weight: 600; }
+        .indisponible { color: #e74c3c; font-weight: 600; }
+        button { cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Bibliothèque</h1>
+
+    <p th:if="${#lists.isEmpty(livres)}" class="empty" data-testid="empty-message">
+        Aucun livre pour le moment.
+    </p>
+
+    <table th:if="${not #lists.isEmpty(livres)}" data-testid="livres-table">
+        <thead>
+            <tr>
+                <th>ISBN</th>
+                <th>Titre</th>
+                <th>Auteur</th>
+                <th>Statut</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="livre : ${livres}" th:attr="data-isbn=${livre.isbn}">
+                <td th:text="${livre.isbn}"></td>
+                <td th:text="${livre.titre}"></td>
+                <td th:text="${livre.auteur}"></td>
+                <td>
+                    <span th:if="${livre.disponible}" class="disponible" data-testid="statut">Disponible</span>
+                    <span th:unless="${livre.disponible}" class="indisponible" data-testid="statut">Emprunté</span>
+                </td>
+                <td>
+                    <form th:if="${livre.disponible}"
+                          th:action="@{'/livres/' + ${livre.id} + '/emprunter-ui'}"
+                          method="post">
+                        <button type="submit" data-testid="bouton-emprunter">Emprunter</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
