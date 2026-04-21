@@ -54,7 +54,7 @@ class LivreServiceTest {
             when(repository.findById(1L)).thenReturn(Optional.of(livre));
             when(repository.save(any(Livre.class))).thenReturn(livre);
 
-            service.emprunter(4L);
+            service.emprunter(1L);
 
             ArgumentCaptor<Livre> captor = ArgumentCaptor.forClass(Livre.class);
             verify(repository).save(captor.capture());

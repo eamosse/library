@@ -39,7 +39,7 @@ public class Livre {
         this.isbn = isbn;
         this.titre = titre;
         this.auteur = auteur;
-        this.disponible = true;
+        this.disponible = false;
     }
 
     /**

@@ -25,7 +25,6 @@ class LivreTest {
         @DisplayName("est disponible")
         void estDisponibleParDefaut() {
             Livre livre = new Livre("9782070360024", "L'Étranger", "Camus");
-
             assertThat(livre.isDisponible()).isTrue();
         }
 
